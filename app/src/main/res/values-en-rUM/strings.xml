@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Movi_Box</string>
+    <string name="btn_menu">Menu</string>
+    <string name="btn_favorites">Favorites</string>
+    <string name="btn_later">Watch later</string>
+    <string name="btn_selections">Selections</string>
+    <string name="btn_options">Options</string>
+    <string name="movieposters">Source https://www.movieposters.com</string>
+</resources>

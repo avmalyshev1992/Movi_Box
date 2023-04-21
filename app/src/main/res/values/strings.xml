@@ -6,5 +6,7 @@
     <string name="btn_selections">ПОДБОРКИ</string>
     <string name="btn_options">НАСТРОЙКИ</string>
     <string name="movieposters">Источник https://www.movieposters.com</string>
+    <string name="menu_settings_title">Настройки</string>
+    <string name="page_title"> Поиск</string>
 
 </resources>
