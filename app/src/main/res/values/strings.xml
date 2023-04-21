@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Movi_Box</string>
+    <string name="btn_menu">МЕНЮ</string>
+    <string name="btn_favorites">ИЗБРАННОЕ</string>
+    <string name="btn_later">СМОТРЕТЬ ПОЗЖЕ</string>
+    <string name="btn_selections">ПОДБОРКИ</string>
+    <string name="btn_options">НАСТРОЙКИ</string>
+    <string name="movieposters">Источник https://www.movieposters.com</string>
+
 </resources>
