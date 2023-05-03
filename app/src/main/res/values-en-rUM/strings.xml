@@ -7,4 +7,6 @@
     <string name="btn_selections">Selections</string>
     <string name="btn_options">Options</string>
     <string name="movieposters">Source https://www.movieposters.com</string>
+    <string name="menu_settings_title">Settings</string>
+    <string name="page_title">Search</string>
 </resources>
