@@ -53,24 +53,4 @@ class MainActivity : AppCompatActivity() {
 
 
 
-    //fun onClickToast(view: View) {
-     //   Toast.makeText(this, "Меню", Toast.LENGTH_SHORT).show()
-
-    //}
-
-   // fun onClickToast2(view: View) {
-    //    Toast.makeText(this, "Ваше избранное", Toast.LENGTH_SHORT).show()
-  //  }
-
-   // fun onClickToast3(view: View) {
-   //     Toast.makeText(this, "Смотреть позже", Toast.LENGTH_SHORT).show()
-   // }
-
-   // fun onClickToast4(view: View) {
-   //     Toast.makeText(this, "Ваши подборки", Toast.LENGTH_SHORT).show()
-   // }
-
-    //fun onClickToast5(view: View) {
-    //    Toast.makeText(this, "Настройки", Toast.LENGTH_SHORT).show()
-   // }
 }
