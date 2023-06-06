@@ -17,6 +17,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
 
+
+
         supportFragmentManager
             .beginTransaction()
             .add(R.id.fragment_placeholder, FirstFragment())
@@ -51,8 +53,18 @@ class MainActivity : AppCompatActivity() {
             }
 
 
+
+
             binding?.bottomNavigation?.setOnNavigationItemSelectedListener {
                 when (it.itemId) {
+                    R.id.favorites -> {
+                        supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.fragment_placeholder, FavoritesFragment())
+                            .addToBackStack(null)
+                            .commit()
+                        true
+                    }
                     R.id.favorites -> {
                         Toast.makeText(this, "Избранное", Toast.LENGTH_SHORT).show()
                         true
@@ -87,6 +99,7 @@ class MainActivity : AppCompatActivity() {
             }
             .show()
     }
+
 
 }
 
