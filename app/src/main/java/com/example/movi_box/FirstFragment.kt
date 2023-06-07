@@ -1,22 +1,25 @@
 package com.example.movi_box
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+//import android.widget.SearchView
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movi_box.databinding.FragmentFirstBinding
+import com.example.movi_box.databinding.MergeFirstScreenContentBinding
+import java.util.*
 
 
 class FirstFragment : Fragment() {
 
-    private var bindingFrag: FragmentFirstBinding? = null
-    private val binding1 get() = bindingFrag!!
-
+    private var bindingFirst1: FragmentFirstBinding? = null
+    private val bindingFirst: FragmentFirstBinding get() = bindingFirst1!!
 
     private lateinit var filmsAdapter: FilmListRecyclerAdapter
+
 
     val filmsDataBase = listOf(
         Film(
@@ -76,32 +79,69 @@ class FirstFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        bindingFrag = FragmentFirstBinding.inflate(inflater, container, false)
-        val view = binding1.root
-        return view
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        bindingFrag = null
+        bindingFirst1 = FragmentFirstBinding.inflate(inflater, container, false)
+        return bindingFirst.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        bindingFrag?.mainRecycler?.apply {
-            filmsAdapter = FilmListRecyclerAdapter(object : FilmListRecyclerAdapter.OnItemClickListener{
-                override fun click(film: Film) {
-                    (requireActivity() as MainActivity).launchDetailsFragment(film)
+
+
+        bindingFirst1?.searchView?.setOnClickListener {
+            bindingFirst1?.searchView?.isIconified = false
+        }
+
+        //Подключаем слушателя изменений введенного текста в поиска
+        bindingFirst1?.searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            //Этот метод отрабатывает при нажатии кнопки "поиск" на софт клавиатуре
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return true
+            }
+
+            //Этот метод отрабатывает на каждое изменения текста
+            override fun onQueryTextChange(newText: String): Boolean {
+                //Если ввод пуст то вставляем в адаптер всю БД
+                if (newText.isEmpty()) {
+                    filmsAdapter.addItems(filmsDataBase)
+                    return true
                 }
-            })
+                //Фильтруем список на поискк подходящих сочетаний
+                val result = filmsDataBase.filter {
+                    //Чтобы все работало правильно, нужно и запрос, и имя фильма приводить к нижнему регистру
+                    it.title.lowercase(Locale.getDefault())
+                        .contains(newText.lowercase(Locale.getDefault()))
+                }
+                //Добавляем в адаптер
+                filmsAdapter.addItems(result)
+                return true
+            }
+        })
+
+        //находим наш RV
+        bindingFirst1?.mainRecycler?.apply {
+            filmsAdapter = FilmListRecyclerAdapter(object : FilmListRecyclerAdapter.OnItemClickListener {
+                    override fun click(film: Film) {
+                        (requireActivity() as MainActivity).launchDetailsFragment(film)
+                    }
+                })
+            //Присваиваем адаптер
             adapter = filmsAdapter
+            //Присвои layoutmanager
             layoutManager = LinearLayoutManager(requireContext())
+            //Применяем декоратор для отступов
             val decorator = TopSpacingItemDecoration(8)
             addItemDecoration(decorator)
         }
-        filmsAdapter.addItems(filmsDataBase)
+
+
     }
+
+
 }
+
+
+
+
 
 
