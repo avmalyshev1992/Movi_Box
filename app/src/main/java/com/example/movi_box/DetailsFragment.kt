@@ -13,6 +13,7 @@ class DetailsFragment : Fragment() {
     private var detailBinding: FragmentDetailsBinding? = null
     private val binding get() = detailBinding!!
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -38,7 +39,7 @@ class DetailsFragment : Fragment() {
             }
         }
 
-        detailBinding?.detailsFab?.setOnClickListener {
+        detailBinding?.detailsFabShare?.setOnClickListener {
 
             val intent = Intent()
             intent.action = Intent.ACTION_SEND
