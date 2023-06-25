@@ -8,6 +8,9 @@
     <string name="movieposters">Источник https://www.movieposters.com</string>
     <string name="menu_settings_title">Настройки</string>
     <string name="page_title"> Поиск</string>
+    <string name="page_name">Movi Box</string>
+    <string name="menu_home_title_text">ГЛАВНАЯ</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 
