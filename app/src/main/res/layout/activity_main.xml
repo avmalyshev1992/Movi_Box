@@ -26,7 +26,6 @@
         app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/navi_menu" />
-    <include
-        layout="@layout/merge_first_screen_content"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

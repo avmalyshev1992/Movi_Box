@@ -9,4 +9,6 @@
     <string name="movieposters">Source https://www.movieposters.com</string>
     <string name="menu_settings_title">Settings</string>
     <string name="page_title">Search</string>
+    <string name="page_name">Movi Box</string>
+    <string name="menu_home_title_text">Home</string>
 </resources>
