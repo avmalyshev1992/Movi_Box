@@ -7,7 +7,7 @@
     android:visibility="visible"
     tools:visibility="visible"
     android:id="@+id/first_fragment_root"
-    tools:context=".FirstFragment">
+    tools:context=".view.fragments.FirstFragment">
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search_view"

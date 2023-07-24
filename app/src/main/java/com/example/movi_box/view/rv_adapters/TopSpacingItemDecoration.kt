@@ -1,4 +1,4 @@
-package com.example.movi_box
+package com.example.movi_box.view.rv_adapters
 
 import android.content.res.Resources
 import android.graphics.Rect

@@ -1,4 +1,4 @@
-package com.example.movi_box
+package com.example.movi_box.view.fragments
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.movi_box.R
 import com.example.movi_box.databinding.FragmentDetailsBinding
+import com.example.movi_box.domain.Film
 
 class DetailsFragment : Fragment() {
     private lateinit var film: Film
@@ -58,14 +60,10 @@ class DetailsFragment : Fragment() {
     }
 
     private fun setFilmsDetails() {
-        //Получаем наш фильм из переданного бандла
         film = arguments?.get("film") as Film
 
-        //Устанавливаем заголовок
         detailBinding?.detailsToolbar?.title = film.title
-        //Устанавливаем картинку
         detailBinding?.detailsPoster?.setImageResource(film.poster)
-        //Устанавливаем описание
         detailBinding?.detailsDescription?.text = film.description
 
         detailBinding?.detailsFabFavorites?.setImageResource(

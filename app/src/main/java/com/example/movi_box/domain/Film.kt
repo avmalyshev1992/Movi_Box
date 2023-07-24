@@ -1,4 +1,4 @@
-package com.example.movi_box
+package com.example.movi_box.domain
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 

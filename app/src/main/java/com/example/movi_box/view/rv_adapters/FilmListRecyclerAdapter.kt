@@ -1,9 +1,11 @@
-package com.example.movi_box
+package com.example.movi_box.view.rv_adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.movi_box.view.rv_viewholders.FilmViewHolder
 import com.example.movi_box.databinding.FilmItemBinding
+import com.example.movi_box.domain.Film
 
 
 //в параметр передаем слушатель, чтобы мы потом могли обрабатывать нажатия из класса Activity

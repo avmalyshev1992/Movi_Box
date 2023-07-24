@@ -1,9 +1,9 @@
-package com.example.movi_box
+package com.example.movi_box.view.rv_viewholders
 
-import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movi_box.databinding.FilmItemBinding
+import com.example.movi_box.domain.Film
 
 
 //В конструктор класс передается layout, который мы создали(film_item.xml)

@@ -1,4 +1,4 @@
-package com.example.movi_box
+package com.example.movi_box.view.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,8 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.movi_box.view.rv_adapters.FilmListRecyclerAdapter
+import com.example.movi_box.view.MainActivity
+import com.example.movi_box.view.rv_adapters.TopSpacingItemDecoration
 import com.example.movi_box.databinding.FragmentFavoritesBinding
-import ru.coolhabit.firstapp.AnimationHelper
+import com.example.movi_box.domain.Film
+import com.example.movi_box.utils.AnimationHelper
 
 class FavoritesFragment : Fragment() {
     private lateinit var filmsAdapter: FilmListRecyclerAdapter
@@ -34,7 +38,6 @@ class FavoritesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         AnimationHelper.performFragmentCircularRevealAnimation(binding!!.favoritesFragmentRoot, requireActivity(), 1)
 
-        //Получаем список при транзакции фрагмента
         val favoritesList: List<Film> = emptyList()
 
         favBinding?.favoritesRecycler?.apply {
@@ -44,15 +47,11 @@ class FavoritesFragment : Fragment() {
                         (requireActivity() as MainActivity).launchDetailsFragment(film)
                     }
                 })
-            //Присваиваем адаптер
             adapter = filmsAdapter
-            //Присвои layoutmanager
             layoutManager = LinearLayoutManager(requireContext())
-            //Применяем декоратор для отступов
             val decorator = TopSpacingItemDecoration(8)
             addItemDecoration(decorator)
         }
-        //Кладем нашу БД в RV
         filmsAdapter.addItems(favoritesList)
     }
 }

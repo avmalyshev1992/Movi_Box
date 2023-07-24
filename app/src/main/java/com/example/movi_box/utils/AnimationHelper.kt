@@ -1,4 +1,4 @@
-package ru.coolhabit.firstapp
+package com.example.movi_box.utils
 
 import android.app.Activity
 import android.view.View
