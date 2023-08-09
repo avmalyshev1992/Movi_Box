@@ -25,27 +25,21 @@ class FirstFragment : Fragment() {
         ViewModelProvider.NewInstanceFactory().create(FirstFragmentViewModel::class.java)
     }
 
-    private var bindingFirst: FragmentFirstBinding? = null
-    private val binding get() = bindingFirst!!
-
-
     private lateinit var filmsAdapter: FilmListRecyclerAdapter
-    private var filmsDataBase = listOf<Film>()
-        //Используем backing field
-        set(value) {
-            if (field == value) return
-            field = value
-            filmsAdapter.addItems(field)
-        }
+    private lateinit var binding: FragmentFirstBinding
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        retainInstance = true
+    }
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        bindingFirst = FragmentFirstBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
+        binding = FragmentFirstBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,52 +51,58 @@ class FirstFragment : Fragment() {
 
         initRecycler()
 
-        viewModel.filmsListLiveData.observe(viewLifecycleOwner, Observer<List<Film>> {
-            filmsDataBase = it
-        })
+        //Кладем нашу БД в RV
+        viewModel.filmsListLiveData.observe(viewLifecycleOwner) {
+            filmsAdapter.addItems(it)
+        }
     }
 
     private fun initSearchView() {
-        bindingFirst?.searchView?.setOnClickListener {
-            bindingFirst?.searchView?.isIconified = false
+        binding.searchView.setOnClickListener {
+            binding.searchView.isIconified = false
         }
 
-        bindingFirst?.searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+
+        //Подключаем слушателя изменений введенного текста в поиска
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+            //Этот метод отрабатывает при нажатии кнопки "поиск" на софт клавиатуре
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return true
             }
+            //Этот метод отрабатывает на каждое изменения текста
             override fun onQueryTextChange(newText: String): Boolean {
+                //Если ввод пуст то вставляем в адаптер всю БД
                 if (newText.isEmpty()) {
-                    filmsAdapter.addItems(MainRepository.filmsDataBase)
+                    viewModel.filmsListLiveData.observe(viewLifecycleOwner) {
+                        filmsAdapter.addItems(it)
+                    }
                     return true
                 }
-                val result = MainRepository.filmsDataBase.filter {
-                    //Чтобы все работало правильно, нужно и запрос, и имя фильма приводить к нижнему регистру
-                    it.title.lowercase(Locale.getDefault()).contains(newText.lowercase(Locale.getDefault()))
+                //Фильтруем список на поиск подходящих сочетаний
+                viewModel.filmsListLiveData.observe(viewLifecycleOwner) {
+                    filmsAdapter.addItems(it.filter { it.title.lowercase(Locale.getDefault()).contains(newText.lowercase(Locale.getDefault())) })
                 }
-                filmsAdapter.addItems(result)
                 return true
             }
         })
     }
 
     private fun initRecycler() {
-        bindingFirst?.mainRecycler?.apply {
+        //находим наш RV
+        binding.mainRecycler.apply {
             filmsAdapter =
                 FilmListRecyclerAdapter(object : FilmListRecyclerAdapter.OnItemClickListener {
                     override fun click(film: Film) {
                         (requireActivity() as MainActivity).launchDetailsFragment(film)
                     }
                 })
+            //Присваиваем адаптер
             adapter = filmsAdapter
+            //Присвои layoutmanager
             layoutManager = LinearLayoutManager(requireContext())
+            //Применяем декоратор для отступов
             val decorator = TopSpacingItemDecoration(8)
             addItemDecoration(decorator)
         }
-    }
-
-    override fun onDestroyView() {
-        bindingFirst = null
-        super.onDestroyView()
     }
 }

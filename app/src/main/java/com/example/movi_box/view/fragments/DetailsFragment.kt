@@ -6,7 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.example.movi_box.R
+import com.example.movi_box.data.ApiConstants
 import com.example.movi_box.databinding.FragmentDetailsBinding
 import com.example.movi_box.domain.Film
 
@@ -63,7 +65,11 @@ class DetailsFragment : Fragment() {
         film = arguments?.get("film") as Film
 
         detailBinding?.detailsToolbar?.title = film.title
-        detailBinding?.detailsPoster?.setImageResource(film.poster)
+        //Устанавливаем картинку
+        Glide.with(this)
+            .load(ApiConstants.IMAGES_URL + "w780" + film.poster)
+            .centerCrop()
+            .into(binding.detailsPoster)
         detailBinding?.detailsDescription?.text = film.description
 
         detailBinding?.detailsFabFavorites?.setImageResource(

@@ -4,7 +4,7 @@ import com.example.movi_box.R
 import com.example.movi_box.domain.Film
 
 class MainRepository {
-    companion object {
+  /*  companion object {
         val filmsDataBase: List<Film> = listOf(
 
             Film(
@@ -69,5 +69,5 @@ class MainRepository {
             )
 
         )
-    }
+    }*/
 }
