@@ -1,15 +1,14 @@
-package com.example.movi_box
+package com.example.movi_box.view
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.movi_box.R
 import com.example.movi_box.databinding.ActivityMainBinding
-import ru.coolhabit.firstapp.SelectionsFragment
-import ru.coolhabit.firstapp.WatchLaterFragment
+import com.example.movi_box.domain.Film
+import com.example.movi_box.view.fragments.*
 
 
 class MainActivity : AppCompatActivity() {
