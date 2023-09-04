@@ -4,6 +4,9 @@ import android.app.Application
 
 import com.example.movi_box.data.di.AppComponent
 import com.example.movi_box.data.di.DaggerAppComponent
+import com.example.movi_box.data.di.module.DatabaseModule
+import com.example.movi_box.data.di.module.DomainModule
+import com.example.movi_box.data.di.module.RemoteModule
 
 
 class App : Application() {
@@ -13,7 +16,11 @@ class App : Application() {
         super.onCreate()
         instance = this
         //Создаем компонент
-        dagger = DaggerAppComponent.builder().build()
+        dagger = DaggerAppComponent.builder()
+            .remoteModule(RemoteModule())
+            .databaseModule(DatabaseModule())
+            .domainModule(DomainModule(this))
+            .build()
     }
 
     companion object {

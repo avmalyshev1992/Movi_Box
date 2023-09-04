@@ -11,4 +11,10 @@
     <string name="page_title">Search</string>
     <string name="page_name">Movi Box</string>
     <string name="menu_home_title_text">Home</string>
+    <string name="menu_settings_title_text">Settings</string>
+    <string name="radio_button_popular">Popular</string>
+    <string name="radio_button_top_rated">Top</string>
+    <string name="radio_button_upcoming">Upcoming</string>
+    <string name="radio_button_playing">Playing</string>
+    <string name="radio_group_header">Group header</string>
 </resources>
