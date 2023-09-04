@@ -24,20 +24,28 @@ class FirstFragment : Fragment() {
     private val viewModel by lazy {
         ViewModelProvider.NewInstanceFactory().create(FirstFragmentViewModel::class.java)
     }
-
     private lateinit var filmsAdapter: FilmListRecyclerAdapter
     private lateinit var binding: FragmentFirstBinding
+    private var filmsDataBase = listOf<Film>()
+        //Используем backing field
+        set(value) {
+            //Если придет такое же значение то мы выходим из метода
+            if (field == value) return
+            //Если прило другое значение, то кладем его в переменную
+            field = value
+            //Обновляем RV адаптер
+            filmsAdapter.addItems(field)
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = true
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentFirstBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -48,12 +56,26 @@ class FirstFragment : Fragment() {
         AnimationHelper.performFragmentCircularRevealAnimation(binding.firstFragmentRoot, requireActivity(), 1)
 
         initSearchView()
-
-        initRecycler()
-
+        initPullToRefresh()
+        //находим наш RV
+        initRecyckler()
         //Кладем нашу БД в RV
-        viewModel.filmsListLiveData.observe(viewLifecycleOwner) {
+        viewModel.filmsListLiveData.observe(viewLifecycleOwner, Observer<List<Film>> {
+            filmsDataBase = it
             filmsAdapter.addItems(it)
+        })
+
+    }
+
+    private fun initPullToRefresh() {
+        //Вешаем слушатель, чтобы вызвался pull to refresh
+        binding.pullToRefresh.setOnRefreshListener {
+            //Чистим адаптер(items нужно будет сделать паблик или создать для этого публичный метод)
+            filmsAdapter.items.clear()
+            //Делаем новый запрос фильмов на сервер
+            viewModel.getFilms()
+            //Убираем крутящиеся колечко
+            binding.pullToRefresh.isRefreshing = false
         }
     }
 
@@ -62,33 +84,34 @@ class FirstFragment : Fragment() {
             binding.searchView.isIconified = false
         }
 
-
         //Подключаем слушателя изменений введенного текста в поиска
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             //Этот метод отрабатывает при нажатии кнопки "поиск" на софт клавиатуре
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return true
             }
+
             //Этот метод отрабатывает на каждое изменения текста
             override fun onQueryTextChange(newText: String): Boolean {
                 //Если ввод пуст то вставляем в адаптер всю БД
                 if (newText.isEmpty()) {
-                    viewModel.filmsListLiveData.observe(viewLifecycleOwner) {
-                        filmsAdapter.addItems(it)
-                    }
+                    filmsAdapter.addItems(filmsDataBase)
                     return true
                 }
-                //Фильтруем список на поиск подходящих сочетаний
-                viewModel.filmsListLiveData.observe(viewLifecycleOwner) {
-                    filmsAdapter.addItems(it.filter { it.title.lowercase(Locale.getDefault()).contains(newText.lowercase(Locale.getDefault())) })
+                //Фильтруем список на поискк подходящих сочетаний
+                val result = filmsDataBase.filter {
+                    //Чтобы все работало правильно, нужно и запроси и имя фильма приводить к нижнему регистру
+                    it.title.toLowerCase(Locale.getDefault())
+                        .contains(newText.toLowerCase(Locale.getDefault()))
                 }
+                //Добавляем в адаптер
+                filmsAdapter.addItems(result)
                 return true
             }
         })
     }
 
-    private fun initRecycler() {
-        //находим наш RV
+    private fun initRecyckler() {
         binding.mainRecycler.apply {
             filmsAdapter =
                 FilmListRecyclerAdapter(object : FilmListRecyclerAdapter.OnItemClickListener {
@@ -105,4 +128,5 @@ class FirstFragment : Fragment() {
             addItemDecoration(decorator)
         }
     }
+
 }

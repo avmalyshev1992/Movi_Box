@@ -35,3 +35,7 @@ class FirstFragmentViewModel : ViewModel() {
         fun onFailure()
     }
 }
+    interface ApiCallback {
+        fun onSuccess(films: List<Film>)
+        fun onFailure()
+    }

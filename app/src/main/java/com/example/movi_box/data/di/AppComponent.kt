@@ -4,6 +4,7 @@ import com.example.movi_box.data.di.module.DatabaseModule
 import com.example.movi_box.data.di.module.DomainModule
 import com.example.movi_box.data.di.module.RemoteModule
 import com.example.movi_box.viewmodel.FirstFragmentViewModel
+import com.example.movi_box.viewmodel.SettingsFragmentViewModel
 import dagger.Component
 import javax.inject.Singleton
 
@@ -17,6 +18,8 @@ import javax.inject.Singleton
     ]
 )
 interface AppComponent {
-    //метод для того, чтобы появилась внедрять зависимости в HomeFragmentViewModel
-    fun inject(firstFragmentViewModel: FirstFragmentViewModel)
+    //метод для того, чтобы появилась возможность внедрять зависимости в HomeFragmentViewModel
+    fun inject(homeFragmentViewModel: FirstFragmentViewModel)
+    //метод для того, чтобы появилась возможность внедрять зависимости в SettingsFragmentViewModel
+    fun inject(settingsFragmentViewModel: SettingsFragmentViewModel)
 }
