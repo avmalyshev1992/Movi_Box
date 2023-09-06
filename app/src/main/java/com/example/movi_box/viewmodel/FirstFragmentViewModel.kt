@@ -26,6 +26,7 @@ class FirstFragmentViewModel : ViewModel() {
             }
 
             override fun onFailure() {
+                filmsListLiveData.postValue(interactor.getFilmsFromDB())
             }
         })
     }
@@ -35,7 +36,3 @@ class FirstFragmentViewModel : ViewModel() {
         fun onFailure()
     }
 }
-    interface ApiCallback {
-        fun onSuccess(films: List<Film>)
-        fun onFailure()
-    }
