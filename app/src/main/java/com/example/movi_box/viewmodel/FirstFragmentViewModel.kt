@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.example.movi_box.App
 import com.example.movi_box.domain.Film
 import com.example.movi_box.domain.Interactor
+import java.util.concurrent.Executors
 import javax.inject.Inject
 
 class FirstFragmentViewModel : ViewModel() {
@@ -26,7 +27,9 @@ class FirstFragmentViewModel : ViewModel() {
             }
 
             override fun onFailure() {
-                filmsListLiveData.postValue(interactor.getFilmsFromDB())
+                Executors.newSingleThreadExecutor().execute {
+                    filmsListLiveData.postValue(interactor.getFilmsFromDB())
+                }
             }
         })
     }

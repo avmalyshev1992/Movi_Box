@@ -21,10 +21,9 @@ class Interactor(private val repo: MainRepository, private val retrofitService: 
             override fun onResponse(call: Call<TmdbResultsDto>, response: Response<TmdbResultsDto>) {
                 //При успехе мы вызываем метод, передаем onSuccess и в этот коллбэк список фильмов
                 val list = Converter.convertApiListToDTOList(response.body()?.tmdbFilms)
-                //Кладем фильмы в бд
-                list.forEach {
-                    repo.putToDb(film = it)
-                }
+                //Кладём фильмы в БД
+                repo.putToDb(list)
+
                 callback.onSuccess(list)
             }
 
