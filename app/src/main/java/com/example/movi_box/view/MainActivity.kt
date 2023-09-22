@@ -5,10 +5,12 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
 import com.example.movi_box.R
 import com.example.movi_box.databinding.ActivityMainBinding
 import com.example.movi_box.domain.Film
 import com.example.movi_box.view.fragments.*
+import com.example.movi_box.viewmodel.FirstFragmentViewModel
 
 
 class MainActivity : AppCompatActivity() {
@@ -29,6 +31,7 @@ class MainActivity : AppCompatActivity() {
             .add(R.id.fragment_placeholder, FirstFragment())
             .addToBackStack(null)
             .commit()
+
 
     }
 
