@@ -15,6 +15,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.movi_box.R
 import com.example.movi_box.data.ApiConstants
@@ -27,11 +28,11 @@ import kotlinx.coroutines.*
 
 class DetailsFragment : Fragment() {
     private lateinit var film: Film
-    private var detailBinding: FragmentDetailsBinding? = null
-    private val binding get() = detailBinding!!
+    private lateinit var binding: FragmentDetailsBinding
+    private val viewModel by lazy {
+        ViewModelProvider.NewInstanceFactory().create(DetailsFragmentViewModel::class.java)
+    }
     private val scope = CoroutineScope(Dispatchers.IO)
-    private val viewModel: DetailsFragmentViewModel by viewModel()
-
 
 
     override fun onCreateView(
@@ -39,7 +40,7 @@ class DetailsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        detailBinding = FragmentDetailsBinding.inflate(inflater, container, false)
+        binding = FragmentDetailsBinding.inflate(inflater, container, false)
         val view = binding.root
         return view
     }
@@ -49,19 +50,19 @@ class DetailsFragment : Fragment() {
 
         setFilmsDetails()
 
-        detailBinding?.detailsFabFavorites?.setOnClickListener {
+        binding?.detailsFabFavorites?.setOnClickListener {
             if (!film.isInFavorites) {
-                detailBinding?.detailsFabFavorites?.setImageResource(R.drawable.round_star_24)
+                binding?.detailsFabFavorites?.setImageResource(R.drawable.round_star_24)
                 film.isInFavorites = true
             } else {
-                detailBinding?.detailsFabFavorites?.setImageResource(R.drawable.round_star_border_24)
+                binding?.detailsFabFavorites?.setImageResource(R.drawable.round_star_border_24)
                 film.isInFavorites = false
             }
         }
 
 
 
-        detailBinding?.detailsFabShare?.setOnClickListener {
+        binding?.detailsFabShare?.setOnClickListener {
 
             val intent = Intent()
             intent.action = Intent.ACTION_SEND
@@ -80,23 +81,22 @@ class DetailsFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        detailBinding = null
-    }
 
+    }
 
 
     private fun setFilmsDetails() {
         film = arguments?.get("film") as Film
 
-        detailBinding?.detailsToolbar?.title = film.title
+        binding?.detailsToolbar?.title = film.title
         //Устанавливаем картинку
         Glide.with(this)
             .load(ApiConstants.IMAGES_URL + "w780" + film.poster)
             .centerCrop()
             .into(binding.detailsPoster)
-        detailBinding?.detailsDescription?.text = film.description
+        binding?.detailsDescription?.text = film.description
 
-        detailBinding?.detailsFabFavorites?.setImageResource(
+        binding?.detailsFabFavorites?.setImageResource(
             if (film.isInFavorites) R.drawable.round_star_border_24
             else R.drawable.round_star_24
         )

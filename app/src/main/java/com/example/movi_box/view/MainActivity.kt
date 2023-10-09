@@ -4,37 +4,35 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModel
 import com.example.movi_box.R
 import com.example.movi_box.databinding.ActivityMainBinding
 import com.example.movi_box.domain.Film
 import com.example.movi_box.view.fragments.*
-import com.example.movi_box.viewmodel.FirstFragmentViewModel
 
 
 class MainActivity : AppCompatActivity() {
 
-    private var binding: ActivityMainBinding? = null
+    private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        installSplashScreen()
+
         binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding!!.root)
+        setContentView(binding.root)
 
         initNavigation()
 
-
-
+        //Запускаем фрагмент при старте
         supportFragmentManager
             .beginTransaction()
             .add(R.id.fragment_placeholder, FirstFragment())
             .addToBackStack(null)
             .commit()
 
-
     }
-
     fun launchDetailsFragment(film: Film) {
         val bundle = Bundle()
         bundle.putParcelable("film", film)
@@ -64,8 +62,8 @@ class MainActivity : AppCompatActivity() {
         binding?.bottomNavigation?.setOnItemSelectedListener {
 
             when (it.itemId) {
-                R.id.home -> {
-                    val tag = "home"
+                R.id.first -> {
+                    val tag = "first"
                     val fragment = checkFragmentExistence(tag)
                     //В первом параметре, если фрагмент не найден и метод вернул null, то с помощью
                     //элвиса мы вызываем создание нового фрагмента
