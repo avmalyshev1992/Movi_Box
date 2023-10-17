@@ -1,14 +1,12 @@
 package com.example.movi_box.data.dao
 
 
-import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.movi_box.domain.Film
 import io.reactivex.rxjava3.core.Observable
-import kotlinx.coroutines.flow.Flow
 
 
 //Помечаем, что это не просто интерфейс, а Dao-объект
@@ -18,7 +16,7 @@ interface FilmDao {
     @Query("SELECT * FROM cached_films")
     fun getCachedFilms(): Observable<List<Film>>
 
-    //Кладём список в БД, в случае конфликта перезаписываем
+    //Кладем списком в БД, в случае конфликта, перезаписываем
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(list: List<Film>)
 }
