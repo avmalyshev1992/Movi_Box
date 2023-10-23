@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
@@ -15,16 +16,26 @@ import com.example.movi_box.view.rv_adapters.TopSpacingItemDecoration
 import com.example.movi_box.databinding.FragmentFirstBinding
 import com.example.movi_box.domain.Film
 import com.example.movi_box.utils.AnimationHelper
+import com.example.movi_box.utils.AutoDisposable
+import com.example.movi_box.utils.addTo
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.ObservableOnSubscribe
 import com.example.movi_box.viewmodel.FirstFragmentViewModel
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.kotlin.subscribeBy
+
+import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 class FirstFragment : Fragment() {
     private val viewModel by lazy {
         ViewModelProvider.NewInstanceFactory().create(FirstFragmentViewModel::class.java)
     }
+    private val autoDisposable = AutoDisposable()
     private lateinit var filmsAdapter: FilmListRecyclerAdapter
     private lateinit var binding: FragmentFirstBinding
     private lateinit var scope: CoroutineScope
@@ -41,6 +52,7 @@ class FirstFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        autoDisposable.bindTo(lifecycle)
         retainInstance = true
     }
 
@@ -63,29 +75,24 @@ class FirstFragment : Fragment() {
         initRecyckler()
         //Кладем нашу БД в RV
 
-        scope = CoroutineScope(Dispatchers.IO).also { scope ->
-            scope.launch {
-                viewModel.filmsListData.collect {
-                    withContext(Dispatchers.Main) {
-                        filmsAdapter.addItems(it)
-                        filmsDataBase = it
-                    }
-                }
+
+        viewModel.filmsListData
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { list ->
+                filmsAdapter.addItems(list)
+                filmsDataBase = list
             }
-            scope.launch {
-                for (element in viewModel.showProgressBar) {
-                    launch(Dispatchers.Main) {
-                        binding.progressBar.isVisible = element
-                    }
-                }
+            .addTo(autoDisposable)
+        viewModel.showProgressBar
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                binding.progressBar.isVisible = it
             }
-        }
+            .addTo(autoDisposable)
     }
 
-    override fun onStop() {
-        super.onStop()
-        scope.cancel()
-    }
 
     private fun initPullToRefresh() {
         //Вешаем слушатель, чтобы вызвался pull to refresh
@@ -104,31 +111,48 @@ class FirstFragment : Fragment() {
             binding.searchView.isIconified = false
         }
 
-        //Подключаем слушателя изменений введенного текста в поиска
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            //Этот метод отрабатывает при нажатии кнопки "поиск" на софт клавиатуре
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return true
-            }
 
-            //Этот метод отрабатывает на каждое изменения текста
-            override fun onQueryTextChange(newText: String): Boolean {
-                //Если ввод пуст то вставляем в адаптер всю БД
-                if (newText.isEmpty()) {
-                    filmsAdapter.addItems(filmsDataBase)
-                    return true
+        Observable.create(ObservableOnSubscribe<String> { subscriber ->
+            //Вешаем слушатель на клавиатуру
+            binding.searchView.setOnQueryTextListener(object :
+            //Вызывается на ввод символов
+                SearchView.OnQueryTextListener {
+                override fun onQueryTextChange(newText: String): Boolean {
+                    filmsAdapter.items.clear()
+                    subscriber.onNext(newText)
+                    return false
                 }
-                //Фильтруем список на поискк подходящих сочетаний
-                val result = filmsDataBase.filter {
-                    //Чтобы все работало правильно, нужно и запроси и имя фильма приводить к нижнему регистру
-                    it.title.toLowerCase(Locale.getDefault())
-                        .contains(newText.toLowerCase(Locale.getDefault()))
+                //Вызывается по нажатию кнопки "Поиск"
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    subscriber.onNext(query)
+                    return false
                 }
-                //Добавляем в адаптер
-                filmsAdapter.addItems(result)
-                return true
-            }
+            })
         })
+            .subscribeOn(Schedulers.io())
+            .map {
+                it.toLowerCase(Locale.getDefault()).trim()
+            }
+            .debounce(1000, TimeUnit.MILLISECONDS)
+            .filter {
+                //Если в поиске пустое поле, возвращаем список фильмов по умолчанию
+                viewModel.getFilms()
+                it.isNotBlank()
+            }
+            .flatMap {
+                viewModel.getSearchResult(it)
+            }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeBy(
+                onError = {
+                    Toast.makeText(requireContext(), "Что-то пошло не так", Toast.LENGTH_SHORT).show()
+                },
+                onNext = {
+                    filmsAdapter.addItems(it)
+                }
+            )
+            .addTo(autoDisposable)
     }
 
     private fun initRecyckler() {
