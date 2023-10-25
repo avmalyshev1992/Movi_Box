@@ -2,9 +2,9 @@ package com.example.movi_box
 
 import android.app.Application
 import com.example.movi_box.data.di.AppComponent
+import com.example.movi_box.data.di.DaggerAppComponent
 import com.example.movi_box.data.di.module.DatabaseModule
 import com.example.movi_box.data.di.module.DomainModule
-import com.example.remote_module.DaggerAppComponent
 import com.example.remote_module.DaggerRemoteComponent
 
 

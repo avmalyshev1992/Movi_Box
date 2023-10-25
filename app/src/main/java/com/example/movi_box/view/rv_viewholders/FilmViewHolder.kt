@@ -2,7 +2,7 @@ package com.example.movi_box.view.rv_viewholders
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.remote_module.ApiConstants
+import com.example.remote_module.entity.ApiConstants
 import com.example.movi_box.databinding.FilmItemBinding
 import com.example.movi_box.data.Entity.Film
 
@@ -29,7 +29,7 @@ class FilmViewHolder(val binding: FilmItemBinding) : RecyclerView.ViewHolder(bin
         //Указываем контейнер, в котором будет "жить" наша картинка
         Glide.with(itemView)
             //Загружаем сам ресурс
-            .load(com.example.remote_module.ApiConstants.IMAGES_URL + "w342" + film.poster)
+            .load(com.example.remote_module.entity.ApiConstants.IMAGES_URL + "w342" + film.poster)
             //Центруем изображение
             .centerCrop()
             //Указываем ImageView, куда будем загружать изображение

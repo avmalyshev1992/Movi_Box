@@ -1,18 +1,19 @@
-
-    apply plugin: 'com.android.application'
-    apply plugin: 'kotlin-android'
-    apply plugin: 'kotlin-kapt'
-    apply plugin: 'kotlin-parcelize'
-    apply from: "$project.rootDir/versions.gradle"
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
+}
+apply from: "$project.rootDir/versions.gradle"
 
 android {
     namespace 'com.example.movi_box'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.example.movi_box"
         minSdk 24
-        targetSdk 33
+        targetSdk 34
         versionCode 1
         versionName "1.0"
 
@@ -77,13 +78,13 @@ dependencies {
 
 
     //Coroutines
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
 
 
 
     //Room
-    def room_version = "2.6.0-beta02"
+    def room_version = "2.6.0"
     //noinspection GradleDependency
     implementation "androidx.room:room-runtime:$room_version"
     implementation "androidx.room:room-rxjava3:2.6.0"
