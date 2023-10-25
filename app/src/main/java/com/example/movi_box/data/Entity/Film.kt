@@ -1,4 +1,5 @@
 package com.example.movi_box.data.Entity
+
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
