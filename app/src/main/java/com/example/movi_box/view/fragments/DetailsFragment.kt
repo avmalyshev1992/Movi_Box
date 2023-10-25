@@ -18,9 +18,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.movi_box.R
-import com.example.movi_box.data.ApiConstants
+import com.example.remote_module.ApiConstants
 import com.example.movi_box.databinding.FragmentDetailsBinding
-import com.example.movi_box.domain.Film
+import com.example.movi_box.data.Entity.Film
 import com.example.movi_box.viewmodel.DetailsFragmentViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
@@ -91,7 +91,7 @@ class DetailsFragment : Fragment() {
         binding?.detailsToolbar?.title = film.title
         //Устанавливаем картинку
         Glide.with(this)
-            .load(ApiConstants.IMAGES_URL + "w780" + film.poster)
+            .load(com.example.remote_module.ApiConstants.IMAGES_URL + "w780" + film.poster)
             .centerCrop()
             .into(binding.detailsPoster)
         binding?.detailsDescription?.text = film.description
@@ -115,7 +115,7 @@ class DetailsFragment : Fragment() {
             binding.progressBar.isVisible = true
             //Создаем через async, так как нам нужен результат от работы, то есть Bitmap
             val job = scope.async {
-                viewModel.loadWallpaper(ApiConstants.IMAGES_URL + "original" + film.poster)
+                viewModel.loadWallpaper(com.example.remote_module.ApiConstants.IMAGES_URL + "original" + film.poster)
             }
             //Сохраняем в галерею, как только файл загрузится
             saveToGallery(job.await())

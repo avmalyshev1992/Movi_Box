@@ -14,3 +14,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Movi_Box"
 include ':app'
+include ':remote_module1'
+include ':remote_module'

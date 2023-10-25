@@ -14,7 +14,7 @@ import com.example.movi_box.view.rv_adapters.FilmListRecyclerAdapter
 import com.example.movi_box.view.MainActivity
 import com.example.movi_box.view.rv_adapters.TopSpacingItemDecoration
 import com.example.movi_box.databinding.FragmentFirstBinding
-import com.example.movi_box.domain.Film
+import com.example.movi_box.data.Entity.Film
 import com.example.movi_box.utils.AnimationHelper
 import com.example.movi_box.utils.AutoDisposable
 import com.example.movi_box.utils.addTo
@@ -26,7 +26,6 @@ import io.reactivex.rxjava3.kotlin.subscribeBy
 
 import io.reactivex.rxjava3.schedulers.Schedulers
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
 import java.util.*
 import java.util.concurrent.TimeUnit
 

@@ -10,7 +10,7 @@ import com.example.movi_box.view.rv_adapters.FilmListRecyclerAdapter
 import com.example.movi_box.view.MainActivity
 import com.example.movi_box.view.rv_adapters.TopSpacingItemDecoration
 import com.example.movi_box.databinding.FragmentFavoritesBinding
-import com.example.movi_box.domain.Film
+import com.example.movi_box.data.Entity.Film
 import com.example.movi_box.utils.AnimationHelper
 
 class FavoritesFragment : Fragment() {

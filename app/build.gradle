@@ -1,11 +1,9 @@
-plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
-    id "kotlin-parcelize"
-    id 'kotlin-kapt'
 
-
-}
+    apply plugin: 'com.android.application'
+    apply plugin: 'kotlin-android'
+    apply plugin: 'kotlin-kapt'
+    apply plugin: 'kotlin-parcelize'
+    apply from: "$project.rootDir/versions.gradle"
 
 android {
     namespace 'com.example.movi_box'
@@ -74,8 +72,8 @@ dependencies {
 
 
     //Dagger
-    implementation 'com.google.dagger:dagger:2.37'
-    kapt 'com.google.dagger:dagger-compiler:2.37'
+    implementation dagger
+    kapt daggerCompiler
 
 
     //Coroutines
@@ -96,6 +94,9 @@ dependencies {
 
     implementation 'io.reactivex.rxjava3:rxkotlin:3.0.1'
     implementation "com.github.akarnokd:rxjava3-retrofit-adapter:3.0.0"
+
+    //Remote module
+    implementation project(":remote_module")
 }
 
 

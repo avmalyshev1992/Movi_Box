@@ -1,8 +1,8 @@
-package com.example.movi_box.data.di.module
+package com.example.remote_module
 
-import com.example.movi_box.BuildConfig
-import com.example.movi_box.data.ApiConstants
-import com.example.movi_box.data.TmdbApi
+
+
+import com.example.remote_module.entity.ApiConstants
 import dagger.Module
 import dagger.Provides
 import hu.akarnokd.rxjava3.retrofit.RxJava3CallAdapterFactory
@@ -44,5 +44,5 @@ class RemoteModule {
 
     @Provides
     @Singleton
-    fun provideTmdbApi(retrofit: Retrofit): TmdbApi = retrofit.create(TmdbApi::class.java)
+    fun provideTmdbApi(retrofit: Retrofit): com.example.remote_module.TmdbApi = retrofit.create(com.example.remote_module.TmdbApi::class.java)
 }
