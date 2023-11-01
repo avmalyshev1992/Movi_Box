@@ -1,11 +1,14 @@
 package com.example.movi_box.view
 
+import android.content.BroadcastReceiver
+import android.content.Intent
+import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.Fragment
+import com.example.movi_box.ConnectionChecker
 import com.example.movi_box.R
 import com.example.movi_box.databinding.ActivityMainBinding
 import com.example.movi_box.data.Entity.Film
@@ -15,24 +18,36 @@ import com.example.movi_box.view.fragments.*
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var receiver: BroadcastReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        installSplashScreen()
-
+        //Инициализируем объект
         binding = ActivityMainBinding.inflate(layoutInflater)
+        //Передаем его в метод
         setContentView(binding.root)
 
         initNavigation()
-
-        //Запускаем фрагмент при старте
+        //Зупускаем фрагмент при старте
         supportFragmentManager
             .beginTransaction()
             .add(R.id.fragment_placeholder, FirstFragment())
             .addToBackStack(null)
             .commit()
 
+        receiver = ConnectionChecker()
+        val filters = IntentFilter().apply {
+            addAction(Intent.ACTION_POWER_CONNECTED)
+            addAction(Intent.ACTION_BATTERY_LOW)
+        }
+        registerReceiver(receiver, filters)
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(receiver)
+    }
+
     fun launchDetailsFragment(film: Film) {
         val bundle = Bundle()
         bundle.putParcelable("film", film)
@@ -48,15 +63,7 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun initNavigation() {
-       /* binding?.topAppBar?.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.settings -> {
-                    Toast.makeText(this, "Настройки", Toast.LENGTH_SHORT).show()
-                    true
-                }
-                else -> false
-            }
-        }*/
+
 
 
         binding?.bottomNavigation?.setOnItemSelectedListener {
