@@ -2,7 +2,7 @@ package com.example.movi_box.data.di.module
 
 import android.content.Context
 import com.example.movi_box.data.MainRepository
-import com.example.movi_box.data.TmdbApi
+import com.example.remote_module.TmdbApi
 import com.example.movi_box.data.preferenes.PreferenceProvider
 import com.example.movi_box.domain.Interactor
 import dagger.Module
@@ -23,5 +23,5 @@ class DomainModule(val context: Context) {
 
     @Singleton
     @Provides
-    fun provideInteractor(repository: MainRepository, tmdbApi: TmdbApi, preferenceProvider: PreferenceProvider) = Interactor(repo = repository, retrofitService = tmdbApi, preferences = preferenceProvider)
+    fun provideInteractor(repository: MainRepository, tmdbApi: com.example.remote_module.TmdbApi, preferenceProvider: PreferenceProvider) = Interactor(repo = repository, retrofitService = tmdbApi, preferences = preferenceProvider)
 }

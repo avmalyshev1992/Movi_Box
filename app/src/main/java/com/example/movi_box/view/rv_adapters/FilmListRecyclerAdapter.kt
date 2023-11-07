@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.movi_box.view.rv_viewholders.FilmViewHolder
 import com.example.movi_box.databinding.FilmItemBinding
-import com.example.movi_box.domain.Film
+import com.example.movi_box.data.Entity.Film
 
 
 //в параметр передаем слушатель, чтобы мы потом могли обрабатывать нажатия из класса Activity

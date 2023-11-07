@@ -1,6 +1,6 @@
-package com.example.movi_box.data
+package com.example.remote_module
 
-import com.example.movi_box.data.Entity.TmdbResultsDto
+import com.example.remote_module.entity.TmdbResultsDto
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.Call
 import retrofit2.http.GET
@@ -15,7 +15,7 @@ interface TmdbApi {
         @Query("api_key") apiKey: String,
         @Query("language") language: String,
         @Query("page") page: Int
-    ): Call<TmdbResultsDto>
+    ): Observable<TmdbResultsDto>
 
     @GET("3/search/movie")
     fun getFilmFromSearch(
