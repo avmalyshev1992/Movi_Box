@@ -13,8 +13,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Movi_Box"
-        tools:targetApi="31">
+        android:theme="@style/NoActionsBar"
+        tools:targetApi="34">
 
         <activity
             android:name=".view.MainActivity"
