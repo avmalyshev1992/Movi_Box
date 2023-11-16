@@ -18,10 +18,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.movi_box.R
-import com.example.remote_module.entity.ApiConstants
 import com.example.movi_box.databinding.FragmentDetailsBinding
 import com.example.movi_box.data.Entity.Film
-import com.example.movi_box.view.NotificationHelper
+import com.example.movi_box.view.notifications.NotificationHelper
 import com.example.movi_box.viewmodel.DetailsFragmentViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
@@ -80,9 +79,9 @@ class DetailsFragment : Fragment() {
         }
 
         binding.detailsFabWatchLater.setOnClickListener {
-            NotificationHelper.createNotification(requireContext(), film)
-
+            NotificationHelper.notificationSet(requireContext(), film)
         }
+
     }
 
     override fun onDestroyView() {
