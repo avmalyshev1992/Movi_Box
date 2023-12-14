@@ -1,5 +1,3 @@
-package com.example.movi_box.view
-
 import android.content.BroadcastReceiver
 import android.content.Intent
 import android.content.IntentFilter
@@ -66,21 +64,18 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        binding?.bottomNavigation?.setOnItemSelectedListener {
-
+        binding.bottomNavigation.setOnNavigationItemSelectedListener {
             when (it.itemId) {
-                R.id.first -> {
-                    val tag = "first"
+                R.id.home -> {
+                    val tag = "home"
                     val fragment = checkFragmentExistence(tag)
                     //В первом параметре, если фрагмент не найден и метод вернул null, то с помощью
                     //элвиса мы вызываем создание нового фрагмента
-                    changeFragment( fragment?: FirstFragment(), tag)
+                    changeFragment( fragment?: HomeFragment(), tag)
                     true
                 }
                 R.id.favorites -> {
-                    val tag = "favorites"
-                    val fragment = checkFragmentExistence(tag)
-                    changeFragment( fragment?: FavoritesFragment(), tag)
+                    Toast.makeText(this, "Доступно в Pro версии", Toast.LENGTH_SHORT).show()
                     true
                 }
                 R.id.watch_later -> {
@@ -90,9 +85,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.selections -> {
-                    val tag = "selections"
-                    val fragment = checkFragmentExistence(tag)
-                    changeFragment( fragment?: SelectionsFragment(), tag)
+                    Toast.makeText(this, "Доступно в Pro версии", Toast.LENGTH_SHORT).show()
                     true
                 }
                 R.id.settings -> {
