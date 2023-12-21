@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
+    id 'com.google.gms.google-services'
 }
 apply from: "$project.rootDir/versions.gradle"
 
@@ -35,9 +36,35 @@ android {
         jvmTarget = "17"
     }
 
+    flavorDimensions "version"
+    productFlavors {
+        basic {
+            dimension "version"
+            applicationIdSuffix ".basic"
+            versionNameSuffix "-basic"
+        }
+        pro {
+            dimension "version"
+            applicationIdSuffix ".pro"
+            versionNameSuffix "-pro"
+        }
+    }
+
     buildFeatures{
         viewBinding true
 
+    }
+    sourceSets {
+        basic {
+            java {
+                srcDirs 'src\\basic\\java'
+            }
+        }
+        pro {
+            java {
+                srcDirs 'src\\pro\\java'
+            }
+        }
     }
 
 }
@@ -45,6 +72,7 @@ android {
 dependencies {
 //Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
+    implementation 'com.google.firebase:firebase-config:21.6.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
     implementation 'androidx.core:core-ktx:1.12.0'

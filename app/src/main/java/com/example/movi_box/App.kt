@@ -8,12 +8,13 @@ import com.example.movi_box.data.di.AppComponent
 import com.example.movi_box.data.di.DaggerAppComponent
 import com.example.movi_box.data.di.module.DatabaseModule
 import com.example.movi_box.data.di.module.DomainModule
-import com.example.movi_box.view.NotificationConstants.CHANNEL_ID
+import com.example.movi_box.view.notifications.NotificationConstants.CHANNEL_ID
 import com.example.remote_module.DaggerRemoteComponent
 
 
 class App : Application() {
     lateinit var dagger: AppComponent
+    var isPromoShown = false
 
     override fun onCreate() {
         super.onCreate()
