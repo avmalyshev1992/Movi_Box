@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1036869593102",
+    "project_id": "movi-box",
+    "storage_bucket": "movi-box.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1036869593102:android:703b57f338af11e721745f",
+        "android_client_info": {
+          "package_name": "com.example.movi_box.basic"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWzjEHGpOWqRCc8ZRLj2OSI5gx50S1P9Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
